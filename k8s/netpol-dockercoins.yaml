@@ -1,9 +1,21 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
+  name: deny-all
+spec:
+  podSelector:
+    matchLabels:
+      security: private
+  ingress: []
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
   name: deny-from-other-namespaces
 spec:
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      security: namespace
   ingress:
   - from:
     - podSelector: {}
@@ -11,11 +23,11 @@ spec:
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-webui
+  name: allow-public
 spec:
   podSelector:
     matchLabels:
-      app: webui
+      app: public
   ingress:
   - from: []
 
